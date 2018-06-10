@@ -1,18 +1,18 @@
-package tads.lpo.rh.gui.manutencao;
+package tads.lpo.rh.gui.manutencao.cargo;
 
 import tads.lpo.rh.bean.CargoBean;
 import tads.lpo.rh.bean.CargoExecutivoBean;
 import tads.lpo.rh.bean.CargoGerencialBean;
 import tads.lpo.rh.bean.CargoOperacionalBean;
-import tads.lpo.rh.gui._common.ColumnDeclaration;
-import tads.lpo.rh.gui._common.EditAndDeleteTableModel;
+import tads.lpo.rh.gui._common.tablemodel.ColumnDeclaration;
+import tads.lpo.rh.gui._common.tablemodel.TableModelEditAndDelete;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
 
-public class CadastroCargoTableModel extends EditAndDeleteTableModel<CargoBean> {
+public class CadastroCargoTableModel extends TableModelEditAndDelete<CargoBean> {
 
     private final List<ColumnDeclaration<CargoBean, ?>> columns;
 

@@ -2,12 +2,13 @@ package tads.lpo.rh.dao;
 
 import tads.lpo.rh.bean.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FuncionarioDAO {
+public class FuncionarioDAO extends BaseDAO<FuncionarioBean> {
 
     public static final FuncionarioBean JOAO =
             new FuncionarioOperacionalBean(2, CargoDAO.ANALISTA, "João Pedro", "Farias", "103171137", "023.646.410-80", "41997687234", 1, "123",DepartamentoDAO.DEPARTAMENTO1);
@@ -27,12 +28,12 @@ public class FuncionarioDAO {
 
     private static int i = 4;
 
-    public void cadastrar(FuncionarioBean funcionario) {
+    public void cadastrar(FuncionarioBean funcionario) throws SQLException {
         funcionario.setId(++this.i);
         funcionarios.add(funcionario);
     }
 
-    public void atualizar(FuncionarioBean funcionarioBean) {
+    public void alterar(FuncionarioBean funcionarioBean) throws SQLException {
         int i = -1;
         for (FuncionarioBean f: funcionarios) {
             if (f.getId().equals(funcionarioBean.getId()))
@@ -42,7 +43,7 @@ public class FuncionarioDAO {
         funcionarios.add(i, funcionarioBean);
     }
 
-    public void excluir(FuncionarioBean funcionarioBean) {
+    public void excluir(FuncionarioBean funcionarioBean) throws SQLException {
         int i = -1;
         for (FuncionarioBean f: funcionarios) {
             if (f.getId().equals(funcionarioBean.getId()))
@@ -52,7 +53,7 @@ public class FuncionarioDAO {
             funcionarios.remove(i);
     }
 
-    public List<FuncionarioBean> listarTodos(String filtro) {
+    public List<FuncionarioBean> listarTodos(String filtro) throws SQLException {
         List<FuncionarioBean> funcionarios = filtro != null && !filtro.isEmpty() ? FuncionarioDAO.funcionarios.stream().filter(f ->
                 f.getNome().contains(filtro) ||
                         f.getRg().equals(filtro) ||
@@ -79,7 +80,7 @@ public class FuncionarioDAO {
         return funcionarios;
     }
 
-    public FuncionarioBean buscarPorCPF(String cpf) {
+    public FuncionarioBean buscarPorCPF(String cpf) throws SQLException {
         FuncionarioBean funcionario = funcionarios.stream().filter(f -> f.getCpf().replace(".", "").replace("-", "").equals(cpf)).findFirst().orElse(null);
 
         if (funcionario != null) {

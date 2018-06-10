@@ -1,4 +1,4 @@
-package tads.lpo.rh.gui._common;
+package tads.lpo.rh.gui._common.tablemodel;
 
 import javax.swing.*;
 import javax.swing.table.TableCellEditor;

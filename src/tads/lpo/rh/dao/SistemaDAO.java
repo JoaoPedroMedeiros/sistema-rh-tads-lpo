@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SistemaDAO {
+public class SistemaDAO extends BaseDAO<SistemaBean> {
 
     public static final SistemaBean SISTEMA1 = new SistemaBean(1, "Sistema 1");
 
@@ -26,7 +26,7 @@ public class SistemaDAO {
         sistemas.add(funcionario);
     }
 
-    public void atualizar(SistemaBean funcionarioBean) {
+    public void alterar(SistemaBean funcionarioBean) {
         int i = -1;
         for (SistemaBean f: sistemas) {
             if (f.getId().equals(funcionarioBean.getId()))

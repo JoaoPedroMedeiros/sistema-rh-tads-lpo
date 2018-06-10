@@ -1,30 +1,32 @@
-package tads.lpo.rh.gui.manutencao;
+package tads.lpo.rh.gui.manutencao.cargo;
 
-import tads.lpo.rh.bean.CargoBean;
-import tads.lpo.rh.bean.CargoExecutivoBean;
-import tads.lpo.rh.bean.CargoGerencialBean;
-import tads.lpo.rh.bean.CargoOperacionalBean;
+import tads.lpo.rh.bean.*;
+import tads.lpo.rh.dao.CargoDAO;
+import tads.lpo.rh.dao.CrudDAO;
+import tads.lpo.rh.gui.MDIFrame;
+import tads.lpo.rh.gui._common.CadastroGenericoModal;
 import tads.lpo.rh.gui._common.CadastroGenericoPanel;
-import tads.lpo.rh.gui._common.ColumnDeclaration;
-import tads.lpo.rh.gui._common.EditAndDeleteTableModel;
+import tads.lpo.rh.gui._common.tablemodel.ColumnDeclaration;
+import tads.lpo.rh.gui._common.tablemodel.TableModelEditAndDelete;
 
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-public class CadastroCargoPanel extends CadastroGenericoPanel {
+public class CadastroCargoPanel extends CadastroGenericoPanel<CargoBean> {
 
-    public CadastroCargoPanel(CadastroCargoEvents events) {
-        super(events);
+    public CadastroCargoPanel(MDIFrame frame) {
+        super(frame);
     }
 
     @Override
-    protected EditAndDeleteTableModel getEditAndDeleteTableModel() {
+    protected TableModelEditAndDelete getEditAndDeleteTableModel() {
         return new CadastroCargoTableModel();
     }
 
     @Override
-    protected List<ColumnDeclaration> getSortColumns() {
+    protected List<ColumnDeclaration<CargoBean, ? extends Comparable>> getSortColumns() {
         return Arrays.asList(
                 new ColumnDeclaration<CargoBean, Integer>("ID", (c) -> c.getId()),
                 new ColumnDeclaration<CargoBean, String>("Nome", (c) -> c.getNome()),
@@ -42,5 +44,25 @@ public class CadastroCargoPanel extends CadastroGenericoPanel {
                 new ColumnDeclaration<CargoBean, BigDecimal>("Salário n. 3", (c) -> c.getSalarioNivel3()),
                 new ColumnDeclaration<CargoBean, BigDecimal>("Percentual", (c) -> c.getPercentualSalarioBonus())
         );
+    }
+
+    @Override
+    protected CadastroGenericoModal criarModalNovo() {
+        return new CadastroCargoModal();
+    }
+
+    @Override
+    protected CadastroGenericoModal criarModalEditar(CargoBean target) {
+        return new CadastroCargoModal(target);
+    }
+
+    @Override
+    protected CrudDAO getDAO() {
+        return new CargoDAO();
+    }
+
+    @Override
+    protected Dimension modalDimensions() {
+        return CadastroCargoModal.dimensions;
     }
 }

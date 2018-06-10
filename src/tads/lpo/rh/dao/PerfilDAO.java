@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PerfilDAO {
+public class PerfilDAO extends BaseDAO<PerfilBean> {
 
     private final static List<PerfilBean> perfis =
             new ArrayList<PerfilBean>(Arrays.asList(
@@ -24,7 +24,7 @@ public class PerfilDAO {
         perfis.add(funcionario);
     }
 
-    public void atualizar(PerfilBean funcionarioBean) {
+    public void alterar(PerfilBean funcionarioBean) {
         int i = -1;
         for (PerfilBean f: perfis) {
             if (f.getId().equals(funcionarioBean.getId()))

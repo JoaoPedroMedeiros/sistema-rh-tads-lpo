@@ -1,7 +1,10 @@
-package tads.lpo.rh.gui.manutencao;
+package tads.lpo.rh.gui.manutencao.funcionario;
 
 import tads.lpo.rh.bean.*;
-import tads.lpo.rh.gui._common.ModalGenericoPanel;
+import tads.lpo.rh.dao.CargoDAO;
+import tads.lpo.rh.dao.DepartamentoDAO;
+import tads.lpo.rh.gui._common.CadastroGenericoModal;
+import tads.lpo.rh.gui._common.ErroFrame;
 
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
@@ -9,10 +12,13 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CadastroFuncionarioModal extends ModalGenericoPanel<FuncionarioBean, CadastroFuncionarioEvents> {
+public class CadastroFuncionarioModal extends CadastroGenericoModal<FuncionarioBean> {
+
+    public static final Dimension dimensions = new Dimension(600, 500);
 
     private JTabbedPane tabPane;
     private JTextField nameText;
@@ -30,33 +36,37 @@ public class CadastroFuncionarioModal extends ModalGenericoPanel<FuncionarioBean
 
     private List<DepartamentoBean> departamentos;
 
-    public CadastroFuncionarioModal(FuncionarioBean funcionario, CadastroFuncionarioEvents events) {
-        super(funcionario, events);
+    public CadastroFuncionarioModal(FuncionarioBean funcionario) {
+        super(funcionario);
     }
 
-    public CadastroFuncionarioModal(CadastroFuncionarioEvents events) {
-        super(events);
+    public CadastroFuncionarioModal() {
+        super();
     }
 
     @Override
     protected Container initializeFields() {
-        departamentos = getEvents().listarDepartamentos();
-        System.out.println(departamentos);
+        try {
+            departamentos = new DepartamentoDAO().listarTodos(null);
 
-        tabPane = new JTabbedPane();
-        tabPane.add("Dados do funcionário", createTabDadosFuncionario());
-        tabPane.add("Departamentos", createTabDepartamentos(departamentos));
+            tabPane = new JTabbedPane();
+            tabPane.add("Dados do funcionário", createTabDadosFuncionario());
+            tabPane.add("Departamentos", createTabDepartamentos(departamentos));
 
-        nivelCombobox.addItem(1);
-        nivelCombobox.addItem(2);
-        nivelCombobox.addItem(3);
+            nivelCombobox.addItem(1);
+            nivelCombobox.addItem(2);
+            nivelCombobox.addItem(3);
 
-        departamentos.forEach((d) -> {
-            departamentoGerenciadoCombobox.addItem(d);
-            departamentoCombobox.addItem(d);
-        });
+            departamentos.forEach((d) -> {
+                departamentoGerenciadoCombobox.addItem(d);
+                departamentoCombobox.addItem(d);
+            });
 
-        getEvents().listarCargos().forEach(c -> cargoCombobox.addItem(c));
+            new CargoDAO().listarTodos(null).forEach(c -> cargoCombobox.addItem(c));
+
+        } catch (SQLException e) {
+            ErroFrame.exibirErro(e);
+        }
 
         return tabPane;
     }

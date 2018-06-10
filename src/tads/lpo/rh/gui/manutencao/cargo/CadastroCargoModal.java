@@ -1,10 +1,10 @@
-package tads.lpo.rh.gui.manutencao;
+package tads.lpo.rh.gui.manutencao.cargo;
 
 import tads.lpo.rh.bean.CargoBean;
 import tads.lpo.rh.bean.CargoExecutivoBean;
 import tads.lpo.rh.bean.CargoGerencialBean;
 import tads.lpo.rh.bean.CargoOperacionalBean;
-import tads.lpo.rh.gui._common.ModalGenericoPanel;
+import tads.lpo.rh.gui._common.CadastroGenericoModal;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,9 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class CadastroCargoModal extends ModalGenericoPanel<CargoBean, CadastroCargoEvents> {
+public class CadastroCargoModal extends CadastroGenericoModal<CargoBean> {
+
+    public static final Dimension dimensions = new Dimension(400, 400);
 
     private JComboBox<String> tipoCombobox;
 
@@ -29,12 +31,12 @@ public class CadastroCargoModal extends ModalGenericoPanel<CargoBean, CadastroCa
     private JFormattedTextField bonificacaoPessoaText;
     private JCheckBox acessoCheckbox;
 
-    public CadastroCargoModal(CargoBean bean, CadastroCargoEvents events) {
-        super(bean, events);
+    public CadastroCargoModal(CargoBean bean) {
+        super(bean);
     }
 
-    public CadastroCargoModal(CadastroCargoEvents events) {
-        super(events);
+    public CadastroCargoModal() {
+        super();
     }
 
     @Override
@@ -52,7 +54,6 @@ public class CadastroCargoModal extends ModalGenericoPanel<CargoBean, CadastroCa
         else if (tipo.equals("Operacional")) {
             cargo = new CargoOperacionalBean();
             ((CargoOperacionalBean) cargo).setAcessaSistema(acessoCheckbox.isSelected());
-            System.out.println(((CargoOperacionalBean) cargo).getAcessaSistema());
         }
         else
             throw new IllegalArgumentException();
@@ -218,7 +219,6 @@ public class CadastroCargoModal extends ModalGenericoPanel<CargoBean, CadastroCa
         }
         else if (bean instanceof CargoOperacionalBean) {
             tipoCombobox.setSelectedItem("Operacional");
-            System.out.println(((CargoOperacionalBean) bean).getAcessaSistema());
             acessoCheckbox.setSelected(((CargoOperacionalBean) bean).getAcessaSistema());
         }
         else if (bean instanceof CargoExecutivoBean) {

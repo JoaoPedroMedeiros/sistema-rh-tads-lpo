@@ -1,18 +1,20 @@
 package tads.lpo.rh.gui.login;
 
 import tads.lpo.rh.bean.SistemaBean;
+import tads.lpo.rh.dao.FuncionarioDAO;
 import tads.lpo.rh.gui._common.ErroFrame;
-import tads.lpo.rh.gui._common.BaseFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class LoginFrame extends BaseFrame {
+public class LoginFrame extends JFrame {
 
-    private final LoginEvents loginEvents;
+    private ActionListener autenticacaoListener;
 
     private JTextField userText;
 
@@ -20,10 +22,8 @@ public class LoginFrame extends BaseFrame {
 
     private JComboBox<SistemaBean> sistemaComboBox;
 
-    public LoginFrame(LoginEvents events) {
+    public LoginFrame() {
         super();
-
-        loginEvents = events;
 
         try {
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,7 +55,7 @@ public class LoginFrame extends BaseFrame {
             panel.add(sistemaLabel);
 
             sistemaComboBox = new JComboBox<>();
-            loginEvents.carregarSistemas().forEach((SistemaBean sistema) -> sistemaComboBox.addItem(sistema));
+            carregarSistemas().forEach(sistema -> sistemaComboBox.addItem(sistema));
             sistemaComboBox.setBounds(100, 70, 160, 25);
             panel.add(sistemaComboBox);
 
@@ -82,6 +82,22 @@ public class LoginFrame extends BaseFrame {
         setLocation(x, y);
     }
 
+    private List<SistemaBean> carregarSistemas() throws SQLException {
+        ArrayList<SistemaBean> sistemas = new ArrayList<>();
+        sistemas.add(new SistemaBean(1, "Sistema 1"));
+        sistemas.add(new SistemaBean(2, "Sistema 2"));
+        return sistemas;
+    }
+
+    private boolean autenticar(SistemaBean sistema, String usuario, String senha) throws SQLException {
+        Autenticavel autenticavel = new FuncionarioDAO().buscarPorCPF(usuario);
+
+        if (autenticavel != null)
+            return autenticavel.autenticar(sistema, usuario, senha);
+
+        return false;
+    }
+
     private void actionLogin() {
         if (userText.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this,"Preencha o campo de usuário!");
@@ -101,11 +117,24 @@ public class LoginFrame extends BaseFrame {
 
         SistemaBean sistema = (SistemaBean) sistemaComboBox.getSelectedItem();
 
-        if (loginEvents.autenticar(sistema, userText.getText(), passwordText.getText())) {
-            loginEvents.autenticou(sistema, userText.getText());
+        try {
+            if (autenticar(sistema, userText.getText(), passwordText.getText())) {
+                this.autenticacaoListener.actionPerformed(new ActionEvent(this, 1, ""));
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Você não tem acesso ao sistema " + sistema + " ou o usuário e a senha estão inválidos");
+            }
         }
-        else {
-            JOptionPane.showMessageDialog(this,"Você não tem acesso ao sistema " + sistema + " ou o usuário e a senha estão inválidos");
+        catch (SQLException e) {
+            ErroFrame.exibirErro(e);
         }
+    }
+
+    public ActionListener getAutenticacaoListener() {
+        return autenticacaoListener;
+    }
+
+    public void setAutenticacaoListener(ActionListener autenticacaoListener) {
+        this.autenticacaoListener = autenticacaoListener;
     }
 }

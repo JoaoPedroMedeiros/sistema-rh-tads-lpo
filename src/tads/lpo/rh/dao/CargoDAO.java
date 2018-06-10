@@ -6,18 +6,19 @@ import tads.lpo.rh.bean.CargoGerencialBean;
 import tads.lpo.rh.bean.CargoOperacionalBean;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CargoDAO {
+public class CargoDAO extends BaseDAO<CargoBean> {
 
     public static final CargoOperacionalBean PROGRAMADOR =
-        new CargoOperacionalBean(1, "Programador", new BigDecimal("4000"),  new BigDecimal("3000"), new BigDecimal("2000"), new BigDecimal("0.8"));
+        new CargoOperacionalBean(1, "Programador", new BigDecimal("4000"),  new BigDecimal("3000"), new BigDecimal("2000"), new BigDecimal("0.8"), true);
 
     public static final CargoOperacionalBean ANALISTA =
-            new CargoOperacionalBean(2, "Analista", new BigDecimal("6000"),  new BigDecimal("5000"), new BigDecimal("4000"), new BigDecimal("1"));
+            new CargoOperacionalBean(2, "Analista", new BigDecimal("6000"),  new BigDecimal("5000"), new BigDecimal("4000"), new BigDecimal("1"), true);
 
     public static final CargoExecutivoBean DIRETOR =
             new CargoExecutivoBean(3, "Diretor", new BigDecimal("10000"), new BigDecimal("9000"), new BigDecimal("8000"), new BigDecimal("4"));
@@ -35,12 +36,12 @@ public class CargoDAO {
 
     private static int i = 4;
 
-    public void cadastrar(CargoBean cargo) {
+    public void cadastrar(CargoBean cargo) throws SQLException {
         cargo.setId(++this.i);
         cargos.add(cargo);
     }
 
-    public void atualizar(CargoBean cargo) {
+    public void alterar(CargoBean cargo) throws SQLException {
         int i = -1;
         for (CargoBean f: cargos) {
             if (f.getId().equals(cargo.getId()))
@@ -50,7 +51,7 @@ public class CargoDAO {
         cargos.add(i, cargo);
     }
 
-    public void excluir(CargoBean cargo) {
+    public void excluir(CargoBean cargo) throws SQLException {
         int i = -1;
         for (CargoBean f: cargos) {
             if (f.getId().equals(cargo.getId()))
@@ -60,7 +61,7 @@ public class CargoDAO {
             cargos.remove(i);
     }
 
-    public List<CargoBean> listarTodos(String filtro) {
+    public List<CargoBean> listarTodos(String filtro) throws SQLException {
         return filtro != null && !filtro.isEmpty() ? cargos.stream().filter(f -> f.getNome().contains(filtro)).collect(Collectors.toList()) : cargos;
     }
 }

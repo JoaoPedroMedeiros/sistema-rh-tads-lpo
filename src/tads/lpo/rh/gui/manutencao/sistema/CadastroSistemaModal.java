@@ -1,21 +1,23 @@
-package tads.lpo.rh.gui.manutencao;
+package tads.lpo.rh.gui.manutencao.sistema;
 
-import tads.lpo.rh.bean.DepartamentoBean;
-import tads.lpo.rh.gui._common.ModalGenericoPanel;
+import tads.lpo.rh.bean.SistemaBean;
+import tads.lpo.rh.gui._common.CadastroGenericoModal;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class CadastroDepartamentoModal extends ModalGenericoPanel<DepartamentoBean, CadastroDepartamentoEvents> {
+public class CadastroSistemaModal extends CadastroGenericoModal<SistemaBean> {
+
+    public static final Dimension dimensions = new Dimension(400, 140);
 
     private JTextField nameText;
 
-    public CadastroDepartamentoModal(DepartamentoBean bean, CadastroDepartamentoEvents events) {
-        super(bean, events);
+    public CadastroSistemaModal(SistemaBean bean) {
+        super(bean);
     }
 
-    public CadastroDepartamentoModal(CadastroDepartamentoEvents events) {
-        super(events);
+    public CadastroSistemaModal() {
+        super();
     }
 
     @Override
@@ -57,8 +59,8 @@ public class CadastroDepartamentoModal extends ModalGenericoPanel<DepartamentoBe
     }
 
     @Override
-    protected DepartamentoBean generateBean() {
-        return new DepartamentoBean(null, nameText.getText());
+    protected SistemaBean generateBean() {
+        return new SistemaBean(null, nameText.getText());
     }
 
     @Override
@@ -67,7 +69,7 @@ public class CadastroDepartamentoModal extends ModalGenericoPanel<DepartamentoBe
     }
 
     @Override
-    protected void fillFields(DepartamentoBean bean) {
+    protected void fillFields(SistemaBean bean) {
         nameText.setText(bean.getNome());
     }
 }

@@ -1,8 +1,8 @@
-package tads.lpo.rh.gui._common;
+package tads.lpo.rh.gui._common.tablemodel;
 
 import javax.swing.*;
 
-public abstract class EditAndDeleteTableModel<T> extends ListTableModel<T> {
+public abstract class TableModelEditAndDelete<T> extends TableModelList<T> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {

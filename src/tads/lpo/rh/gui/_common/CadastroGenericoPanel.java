@@ -1,38 +1,65 @@
 package tads.lpo.rh.gui._common;
 
+import tads.lpo.rh.bean.BaseBean;
+import tads.lpo.rh.dao.CrudDAO;
+import tads.lpo.rh.gui._common.tablemodel.ButtonColumn;
+import tads.lpo.rh.gui._common.tablemodel.ColumnDeclaration;
+import tads.lpo.rh.gui._common.tablemodel.TableModelEditAndDelete;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public abstract class CadastroGenericoPanel<T, S extends CadastroGenericoEvents<T>> extends JPanel {
+public abstract class CadastroGenericoPanel<T extends BaseBean> extends JPanel {
+
+    private final Frame parentFrame;
+
+    private JDialog dialog;
 
     private JTable table;
 
-    private EditAndDeleteTableModel<T> tableModel;
-
-    private S events;
+    private TableModelEditAndDelete<T> tableModel;
 
     private ColumnDeclaration<T, ? extends Comparable> sortType;
 
     private JTextField filtroText;
 
-    protected abstract EditAndDeleteTableModel<T> getEditAndDeleteTableModel();
+    protected abstract TableModelEditAndDelete<T> getEditAndDeleteTableModel();
 
-    public CadastroGenericoPanel(S events) {
-        this.events = events;
+    public CadastroGenericoPanel(Frame parentFrame) {
+        this.parentFrame = parentFrame;
 
         ButtonColumn btnColumnEditar = new ButtonColumn("Editar");
         ButtonColumn btnColumnExcluir = new ButtonColumn("Excluir");
 
         btnColumnEditar.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent event) {
                 try {
-                    events.modalEditar((T) event.getSource());
+                    CadastroGenericoModal<T> modal;
+                    modal = criarModalEditar((T) event.getSource());
+                    modal.setSavedListener((savedEvent) -> {
+
+                        try {
+                            getDAO().alterar((T) savedEvent.getSource());
+
+                            System.out.println(dialog);
+
+                            dialog.dispose();
+                            refresh();
+
+                        } catch (SQLException e1) {
+                            ErroFrame.exibirErro(e1);
+                        }
+                    });
+
+                    openModal(modal);
                 }
                 catch (ClassCastException e) {
                     ErroFrame.exibirErro(e);
@@ -40,15 +67,13 @@ public abstract class CadastroGenericoPanel<T, S extends CadastroGenericoEvents<
             }
         });
 
-        btnColumnExcluir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                try {
-                    events.excluir((T) event.getSource());
-                }
-                catch (ClassCastException e) {
-                    ErroFrame.exibirErro(e);
-                }
+        btnColumnExcluir.addActionListener((event) -> {
+
+            try {
+                getDAO().excluir((T) event.getSource());
+            }
+            catch (SQLException | ClassCastException e) {
+                ErroFrame.exibirErro(e);
             }
         });
 
@@ -79,15 +104,32 @@ public abstract class CadastroGenericoPanel<T, S extends CadastroGenericoEvents<
 
         JButton novoButton = new JButton("Novo");
         novoButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                events.modalNovo();
+                CadastroGenericoModal<T> modal;
+                modal = criarModalNovo();
+                modal.setSavedListener((savedEvent) -> {
+
+                    try {
+                        getDAO().cadastrar((T) savedEvent.getSource());
+
+                        dialog.dispose();
+                        refresh();
+
+                    } catch (SQLException e1) {
+                        ErroFrame.exibirErro(e1);
+                    }
+                });
+
+                openModal(modal);
             }
         });
 
         JComboBox<ColumnDeclaration<T, ? extends Comparable>> ordenacaoCombobox = new JComboBox(getSortColumns().toArray());
         sortType = (ColumnDeclaration<T, ? extends Comparable>) ordenacaoCombobox.getSelectedItem();
         ordenacaoCombobox.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 sortType = (ColumnDeclaration<T, ? extends Comparable>) ordenacaoCombobox.getSelectedItem();
@@ -120,7 +162,14 @@ public abstract class CadastroGenericoPanel<T, S extends CadastroGenericoEvents<
 
     public void refresh() {
 
-        List<T> itens = events.listar(filtroText.getText());
+        List<T> itens;
+        try {
+            itens = getDAO().listarTodos(filtroText.getText());
+
+        } catch (SQLException e) {
+            ErroFrame.exibirErro(e);
+            return;
+        }
 
         Collections.sort(itens, new Comparator<T>() {
             @Override
@@ -135,7 +184,29 @@ public abstract class CadastroGenericoPanel<T, S extends CadastroGenericoEvents<
 
     protected abstract List<ColumnDeclaration<T, ? extends Comparable>> getSortColumns();
 
+    protected abstract CadastroGenericoModal<T> criarModalNovo();
+
+    protected abstract CadastroGenericoModal<T> criarModalEditar(T target);
+
+    protected abstract CrudDAO<T> getDAO();
+
+    protected abstract Dimension modalDimensions();
+
     protected JTable getTable() {
         return this.table;
+    }
+
+    private void openModal(JPanel panel) {
+        dialog = new JDialog(this.parentFrame, "Novo cargo", true);
+        dialog.getContentPane().add(panel);
+
+        dialog.setSize(modalDimensions());
+        dialog.setPreferredSize(modalDimensions());
+
+        FrameUtils.centralizar(dialog);
+
+        dialog.setResizable(false);
+        dialog.setVisible(true);
+        dialog.pack();
     }
 }

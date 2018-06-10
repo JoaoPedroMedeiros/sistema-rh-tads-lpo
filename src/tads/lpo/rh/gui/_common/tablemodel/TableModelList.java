@@ -1,15 +1,17 @@
-package tads.lpo.rh.gui._common;
+package tads.lpo.rh.gui._common.tablemodel;
+
+import tads.lpo.rh.gui._common.tablemodel.ColumnDeclaration;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class ListTableModel<T> extends AbstractTableModel {
+public abstract class TableModelList<T> extends AbstractTableModel {
 
     private final List<T> items;
 
-    public ListTableModel() {
+    public TableModelList() {
         this.items = new LinkedList<>();
     }
 

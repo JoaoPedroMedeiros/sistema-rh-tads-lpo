@@ -1,14 +1,14 @@
-package tads.lpo.rh.gui.manutencao;
+package tads.lpo.rh.gui.manutencao.funcionario;
 
 import tads.lpo.rh.bean.FuncionarioBean;
-import tads.lpo.rh.gui._common.ColumnDeclaration;
-import tads.lpo.rh.gui._common.EditAndDeleteTableModel;
+import tads.lpo.rh.gui._common.tablemodel.ColumnDeclaration;
+import tads.lpo.rh.gui._common.tablemodel.TableModelEditAndDelete;
 
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
 
-public class CadastroFuncionarioTableModel extends EditAndDeleteTableModel<FuncionarioBean> {
+public class CadastroFuncionarioTableModel extends TableModelEditAndDelete<FuncionarioBean> {
 
     private final List<ColumnDeclaration<FuncionarioBean, ?>> columns;
 

@@ -1,23 +1,23 @@
 package tads.lpo.rh.gui;
 
 import javafx.util.Callback;
-import tads.lpo.rh.gui._common.BaseFrame;
+import tads.lpo.rh.gui.manutencao.cargo.CadastroCargoPanel;
+import tads.lpo.rh.gui.manutencao.departamento.CadastroDepartamentoPanel;
+import tads.lpo.rh.gui.manutencao.funcionario.CadastroFuncionarioPanel;
+import tads.lpo.rh.gui.manutencao.perfil.CadastroPerfilPanel;
+import tads.lpo.rh.gui.manutencao.sistema.CadastroSistemaPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class MDIFrame extends BaseFrame {
-
-    private MDIEvents events;
+public class MDIFrame extends JFrame {
 
     private Component telaAtual;
 
-    public MDIFrame(MDIEvents events) {
+    public MDIFrame() {
         super();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        this.events = events;
 
         setSize(new Dimension(800,600));
 
@@ -50,11 +50,11 @@ public class MDIFrame extends BaseFrame {
 
         super.setJMenuBar(menuBar);
 
-        menuCadastroFunc.addActionListener((e) -> abrirTela(e, e1 -> events.cadastroFuncionario()));
-        menuCadastroCargo.addActionListener((e) -> abrirTela(e, e1 -> events.cadastroCargo()));
-        menuCadastroDep.addActionListener((e) -> abrirTela(e, e1 -> events.cadastroDepartamento()));
-        menuCadastroSist.addActionListener((e) -> abrirTela(e, e1 -> events.cadastroSistema()));
-        menuCadastroPerfil.addActionListener((e) -> abrirTela(e, e1 -> events.cadastroPerfil()));
+        menuCadastroFunc.addActionListener(  (e) -> abrirTela(e, e1 -> cadastroFuncionario()));
+        menuCadastroCargo.addActionListener( (e) -> abrirTela(e, e1 -> cadastroCargo()));
+        menuCadastroDep.addActionListener(   (e) -> abrirTela(e, e1 -> cadastroDepartamento()));
+        menuCadastroSist.addActionListener(  (e) -> abrirTela(e, e1 -> cadastroSistema()));
+        menuCadastroPerfil.addActionListener((e) -> abrirTela(e, e1 -> cadastroPerfil()));
     }
 
     private void abrirTela(ActionEvent e, Callback<ActionEvent, Component> resource) {
@@ -65,5 +65,40 @@ public class MDIFrame extends BaseFrame {
         telaAtual = resource.call(e);
         getContentPane().add(telaAtual);
         getContentPane().revalidate();
+    }
+
+    private CadastroFuncionarioPanel cadastroFuncionario() {
+        CadastroFuncionarioPanel cadastroFuncionarioPanel;
+        cadastroFuncionarioPanel = new CadastroFuncionarioPanel(this);
+        cadastroFuncionarioPanel.setVisible(true);
+        return cadastroFuncionarioPanel;
+    }
+
+    private Component cadastroDepartamento() {
+        CadastroDepartamentoPanel cadastroDepartamentoPanel;
+        cadastroDepartamentoPanel = new CadastroDepartamentoPanel(this);
+        cadastroDepartamentoPanel.setVisible(true);
+        return cadastroDepartamentoPanel;
+    }
+
+    private Component cadastroSistema() {
+        CadastroSistemaPanel cadastroSistemaPanel;
+        cadastroSistemaPanel = new CadastroSistemaPanel(this);
+        cadastroSistemaPanel.setVisible(true);
+        return cadastroSistemaPanel;
+    }
+
+    private Component cadastroCargo() {
+        CadastroCargoPanel cadastroCargoPanel;
+        cadastroCargoPanel = new CadastroCargoPanel(this);
+        cadastroCargoPanel.setVisible(true);
+        return cadastroCargoPanel;
+    }
+
+    private Component cadastroPerfil() {
+        CadastroPerfilPanel cadastroPerfilPanel;
+        cadastroPerfilPanel = new CadastroPerfilPanel(this);
+        cadastroPerfilPanel.setVisible(true);
+        return cadastroPerfilPanel;
     }
 }

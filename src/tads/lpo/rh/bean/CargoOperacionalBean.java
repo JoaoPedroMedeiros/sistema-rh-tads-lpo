@@ -9,12 +9,18 @@ public class CargoOperacionalBean extends CargoBean {
     public CargoOperacionalBean() {
     }
 
-    public CargoOperacionalBean(String nome, BigDecimal salarioNivel1, BigDecimal salarioNivel2, BigDecimal salarioNivel3, BigDecimal percentualSalarioBonus) {
+    public CargoOperacionalBean(String nome, BigDecimal salarioNivel1, BigDecimal salarioNivel2, BigDecimal salarioNivel3, BigDecimal percentualSalarioBonus,
+                                Boolean acessaSistema) {
         super(nome, salarioNivel1, salarioNivel2, salarioNivel3, percentualSalarioBonus);
+
+        this.acessaSistema = acessaSistema;
     }
 
-    public CargoOperacionalBean(Integer id, String nome, BigDecimal salarioNivel1, BigDecimal salarioNivel2, BigDecimal salarioNivel3, BigDecimal percentualSalarioBonus) {
+    public CargoOperacionalBean(Integer id, String nome, BigDecimal salarioNivel1, BigDecimal salarioNivel2, BigDecimal salarioNivel3, BigDecimal percentualSalarioBonus,
+                                Boolean acessaSistema) {
         super(id, nome, salarioNivel1, salarioNivel2, salarioNivel3, percentualSalarioBonus);
+
+        this.acessaSistema = acessaSistema;
     }
 
     public Boolean getAcessaSistema() {

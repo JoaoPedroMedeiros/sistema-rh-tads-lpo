@@ -1,17 +1,24 @@
-package tads.lpo.rh.gui.manutencao;
+package tads.lpo.rh.gui.manutencao.perfil;
 
 import tads.lpo.rh.bean.FuncionarioBean;
 import tads.lpo.rh.bean.PerfilBean;
 import tads.lpo.rh.bean.SistemaBean;
-import tads.lpo.rh.gui._common.ModalGenericoPanel;
+import tads.lpo.rh.dao.FuncionarioDAO;
+import tads.lpo.rh.dao.PerfilDAO;
+import tads.lpo.rh.dao.SistemaDAO;
+import tads.lpo.rh.gui._common.CadastroGenericoModal;
+import tads.lpo.rh.gui._common.ErroFrame;
 import tads.lpo.rh.gui._common.ValidationException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CadastroPerfilModal extends ModalGenericoPanel<PerfilBean, CadastroPerfilEvents> {
+public class CadastroPerfilModal extends CadastroGenericoModal<PerfilBean> {
+
+    public static final Dimension dimensions = new Dimension(700, 400);
 
     private JComboBox<FuncionarioBean> funcionarioCombobox;
 
@@ -19,16 +26,17 @@ public class CadastroPerfilModal extends ModalGenericoPanel<PerfilBean, Cadastro
 
     private List<SistemaBean> sistemas;
 
-    public CadastroPerfilModal(PerfilBean bean, CadastroPerfilEvents events) {
-        super(bean, events);
+    public CadastroPerfilModal(PerfilBean bean) {
+        super(bean);
     }
 
-    public CadastroPerfilModal(CadastroPerfilEvents events) {
-        super(events);
+    public CadastroPerfilModal() {
+        super();
     }
 
     @Override
-    protected Component initializeFields() {
+    protected Component initializeFields() throws SQLException {
+
         JPanel panel = new JPanel();
 
         BorderLayout layout = new BorderLayout();
@@ -61,8 +69,8 @@ public class CadastroPerfilModal extends ModalGenericoPanel<PerfilBean, Cadastro
         panelFields.add(panelFuncionario, "North");
         panelFields.add(panelSistemas, "Center");
 
-        List<FuncionarioBean> funcionarios = getEvents().listarFuncionarios();
-        sistemas = getEvents().listarSistemas();
+        List<FuncionarioBean> funcionarios = new FuncionarioDAO().listarTodos(null);
+        sistemas = new SistemaDAO().listarTodos(null);
 
         funcionarioCombobox = new JComboBox<FuncionarioBean>(funcionarios.toArray(new FuncionarioBean[funcionarios.size()]));
         funcionarioCombobox.setMaximumSize(new Dimension(300, 40));
@@ -85,7 +93,8 @@ public class CadastroPerfilModal extends ModalGenericoPanel<PerfilBean, Cadastro
     }
 
     @Override
-    protected boolean validateFields() {
+    protected boolean validateFields() throws SQLException {
+
         if (funcionarioCombobox.getSelectedItem() == null)
             return false;
 
@@ -93,7 +102,7 @@ public class CadastroPerfilModal extends ModalGenericoPanel<PerfilBean, Cadastro
             return false;
 
         if (getId() == null)
-            for (PerfilBean perfilBean : getEvents().listar(null)) {
+            for (PerfilBean perfilBean : new PerfilDAO().listarTodos(null)) {
                 if (perfilBean.getFuncionario().equals(funcionarioCombobox.getSelectedItem()))
                     throw new ValidationException("O funcionário " + perfilBean.getFuncionario().getNome() + " já tem um perfil cadastrado");
             }
