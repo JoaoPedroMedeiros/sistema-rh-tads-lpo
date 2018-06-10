@@ -1,6 +1,5 @@
 package tads.lpo.rh.gui._common;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class FrameUtils {

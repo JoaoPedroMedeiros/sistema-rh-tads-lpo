@@ -1,7 +1,5 @@
 package tads.lpo.rh.gui._common.tablemodel;
 
-import tads.lpo.rh.gui._common.tablemodel.ColumnDeclaration;
-
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.LinkedList;

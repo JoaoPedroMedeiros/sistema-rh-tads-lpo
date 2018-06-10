@@ -7,7 +7,6 @@ import tads.lpo.rh.dao.FuncionarioDAO;
 import tads.lpo.rh.dao.PerfilDAO;
 import tads.lpo.rh.dao.SistemaDAO;
 import tads.lpo.rh.gui._common.CadastroGenericoModal;
-import tads.lpo.rh.gui._common.ErroFrame;
 import tads.lpo.rh.gui._common.ValidationException;
 
 import javax.swing.*;

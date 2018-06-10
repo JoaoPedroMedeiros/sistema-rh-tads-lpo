@@ -1,6 +1,6 @@
 package tads.lpo.rh.dao;
 
-import tads.lpo.rh.bean.*;
+import tads.lpo.rh.bean.DepartamentoBean;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

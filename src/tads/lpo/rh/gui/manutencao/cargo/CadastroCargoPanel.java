@@ -1,6 +1,9 @@
 package tads.lpo.rh.gui.manutencao.cargo;
 
-import tads.lpo.rh.bean.*;
+import tads.lpo.rh.bean.CargoBean;
+import tads.lpo.rh.bean.CargoExecutivoBean;
+import tads.lpo.rh.bean.CargoGerencialBean;
+import tads.lpo.rh.bean.CargoOperacionalBean;
 import tads.lpo.rh.dao.CargoDAO;
 import tads.lpo.rh.dao.CrudDAO;
 import tads.lpo.rh.gui.MDIFrame;
