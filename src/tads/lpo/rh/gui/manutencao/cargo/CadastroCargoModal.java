@@ -83,9 +83,11 @@ public class CadastroCargoModal extends CadastroGenericoModal<CargoBean> {
 
             if (porcentagemBonificacaoText.getValue() == null || ((Number) porcentagemBonificacaoText.getValue()).doubleValue() < 0d)
                 return false;
+
             if (((String) tipoCombobox.getSelectedItem()).equals("Executivo"))
                 if (bonificacaoDepartamentoText.getValue() == null || ((Number) bonificacaoDepartamentoText.getValue()).doubleValue() < 0d)
                     return false;
+
             if (((String) tipoCombobox.getSelectedItem()).equals("Gerencial"))
                 if (bonificacaoPessoaText.getValue() == null || ((Number) bonificacaoPessoaText.getValue()).doubleValue() < 0d)
                     return false;
