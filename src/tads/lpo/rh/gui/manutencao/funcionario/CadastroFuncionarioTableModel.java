@@ -21,8 +21,7 @@ public class CadastroFuncionarioTableModel extends TableModelEditAndDelete<Funci
                 new ColumnDeclaration<FuncionarioBean, String>("RG",               (f) -> f.getRg()),
                 new ColumnDeclaration<FuncionarioBean, String>("Telefone",         (f) -> f.getTelefone()),
                 new ColumnDeclaration<FuncionarioBean, Integer>("Nível",           (f) -> f.getNivel()),
-                new ColumnDeclaration<FuncionarioBean, String>("Salário",          (f) -> NumberFormat.getCurrencyInstance().format(f.getSalario())),
-                new ColumnDeclaration<FuncionarioBean, String>("Bonificação anual", (f) -> NumberFormat.getCurrencyInstance().format(f.getBonificacaoAnual()))
+                new ColumnDeclaration<FuncionarioBean, String>("Salário",          (f) -> NumberFormat.getCurrencyInstance().format(f.getSalario()))
             );
     }
 

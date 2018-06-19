@@ -43,13 +43,14 @@ public abstract class CadastroGenericoPanel<T extends BaseBean> extends JPanel {
             public void actionPerformed(ActionEvent event) {
                 try {
                     CadastroGenericoModal<T> modal;
-                    modal = criarModalEditar((T) event.getSource());
+                    T target = (T) event.getSource();
+                    carregarInformacoesAdicionaisEdicao(target);
+                    modal = criarModalEditar(target);
+
                     modal.setSavedListener((savedEvent) -> {
 
                         try {
                             getDAO().alterar((T) savedEvent.getSource());
-
-                            System.out.println(dialog);
 
                             dialog.dispose();
                             refresh();
@@ -71,6 +72,7 @@ public abstract class CadastroGenericoPanel<T extends BaseBean> extends JPanel {
 
             try {
                 getDAO().excluir((T) event.getSource());
+                refresh();
             }
             catch (SQLException | ClassCastException e) {
                 ErroFrame.exibirErro(e);
@@ -194,6 +196,9 @@ public abstract class CadastroGenericoPanel<T extends BaseBean> extends JPanel {
 
     protected JTable getTable() {
         return this.table;
+    }
+
+    protected void carregarInformacoesAdicionaisEdicao(T target) {
     }
 
     private void openModal(JPanel panel) {

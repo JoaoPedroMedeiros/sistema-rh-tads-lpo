@@ -2,6 +2,8 @@ package tads.lpo.rh.bean;
 
 import java.math.BigDecimal;
 
+
+//
 public class CargoOperacionalBean extends CargoBean {
 
     private Boolean acessaSistema;

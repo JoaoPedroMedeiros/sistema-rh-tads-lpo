@@ -40,7 +40,7 @@ public class HSQLConnectionFactory implements ConnectionFactory {
                 "CREATE TABLE IF NOT EXISTS Cargo (                         \n" +
                     "  id                          INTEGER IDENTITY PRIMARY KEY,\n" +
                     "  tipo                        INT         ,                \n" +
-                    "  name                        VARCHAR(300),                \n" +
+                    "  nome                        VARCHAR(300),                \n" +
                     "  salarioNivel1               DECIMAL,                     \n" +
                     "  salarioNivel2               DECIMAL,                     \n" +
                     "  salarioNivel3               DECIMAL,                     \n" +

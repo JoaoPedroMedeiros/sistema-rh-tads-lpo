@@ -1,5 +1,9 @@
 package tads.lpo.rh.bean;
 
+
+/**
+ * Classe com as informações dos departamentos
+ */
 public class DepartamentoBean extends BaseBean {
 
     private String nome;
@@ -23,7 +27,7 @@ public class DepartamentoBean extends BaseBean {
     public String toString() {
         return this.nome;
     }
-
+    // Utilizado na bonificação do gerente
     public Integer getContagemPessoas() {
         return contagemPessoas;
     }

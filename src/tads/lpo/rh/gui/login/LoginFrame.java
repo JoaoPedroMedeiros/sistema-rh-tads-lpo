@@ -2,6 +2,7 @@ package tads.lpo.rh.gui.login;
 
 import tads.lpo.rh.bean.SistemaBean;
 import tads.lpo.rh.dao.FuncionarioDAO;
+import tads.lpo.rh.dao.SistemaDAO;
 import tads.lpo.rh.gui._common.ErroFrame;
 
 import javax.swing.*;
@@ -83,10 +84,7 @@ public class LoginFrame extends JFrame {
     }
 
     private List<SistemaBean> carregarSistemas() throws SQLException {
-        ArrayList<SistemaBean> sistemas = new ArrayList<>();
-        sistemas.add(new SistemaBean(1, "Sistema 1"));
-        sistemas.add(new SistemaBean(2, "Sistema 2"));
-        return sistemas;
+        return new SistemaDAO().listarTodos(null);
     }
 
     private boolean autenticar(SistemaBean sistema, String usuario, String senha) throws SQLException {

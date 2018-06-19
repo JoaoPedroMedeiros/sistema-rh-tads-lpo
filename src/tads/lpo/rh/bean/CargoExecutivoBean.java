@@ -6,7 +6,7 @@ public class CargoExecutivoBean extends CargoBean {
 
     private BigDecimal bonificacaoPorDepartamento;
 
-    public CargoExecutivoBean(BigDecimal bonificacaoPorDepartamento) {
+    public CargoExecutivoBean() {
         this.bonificacaoPorDepartamento = bonificacaoPorDepartamento;
     }
 

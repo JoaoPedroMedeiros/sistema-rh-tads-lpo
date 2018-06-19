@@ -6,6 +6,7 @@ import tads.lpo.rh.gui.manutencao.departamento.CadastroDepartamentoPanel;
 import tads.lpo.rh.gui.manutencao.funcionario.CadastroFuncionarioPanel;
 import tads.lpo.rh.gui.manutencao.perfil.CadastroPerfilPanel;
 import tads.lpo.rh.gui.manutencao.sistema.CadastroSistemaPanel;
+import tads.lpo.rh.gui.relatorio.RelatorioFuncionarioPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,6 +56,7 @@ public class MDIFrame extends JFrame {
         menuCadastroDep.addActionListener(   (e) -> abrirTela(e, e1 -> cadastroDepartamento()));
         menuCadastroSist.addActionListener(  (e) -> abrirTela(e, e1 -> cadastroSistema()));
         menuCadastroPerfil.addActionListener((e) -> abrirTela(e, e1 -> cadastroPerfil()));
+        menuRelatorioFunc.addActionListener( (e) -> abrirTela(e, e1 -> relatorioFuncionario()));
     }
 
     private void abrirTela(ActionEvent e, Callback<ActionEvent, Component> resource) {
@@ -100,5 +102,12 @@ public class MDIFrame extends JFrame {
         cadastroPerfilPanel = new CadastroPerfilPanel(this);
         cadastroPerfilPanel.setVisible(true);
         return cadastroPerfilPanel;
+    }
+
+    private Component relatorioFuncionario() {
+        RelatorioFuncionarioPanel relatorioFuncionarioPanel;
+        relatorioFuncionarioPanel = new RelatorioFuncionarioPanel();
+        relatorioFuncionarioPanel.setVisible(true);
+        return relatorioFuncionarioPanel;
     }
 }

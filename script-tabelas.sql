@@ -1,14 +1,14 @@
 CREATE TABLE IF NOT EXISTS Cargo (
   id                          INTEGER IDENTITY PRIMARY KEY,
-  tipo                        INT          NOT NULL,
-  nome                        VARCHAR(300) NOT NULL,
-  salarioNivel1               DECIMAL      NOT NULL,
-  salarioNivel2               DECIMAL      NOT NULL,
-  salarioNivel3               DECIMAL      NOT NULL,
-  percentualSalarioBonus      DECIMAL      NOT NULL,
-  bonificacaoPorDepartamento  DECIMAL          NULL,
-  bonificacaoPorPessoa        DECIMAL          NULL,
-  acessaSistema               BIT              NULL 
+  tipo                        INT           NOT NULL,
+  nome                        VARCHAR(300)  NOT NULL,
+  salarioNivel1               DECIMAL(17,2) NOT NULL,
+  salarioNivel2               DECIMAL(17,2) NOT NULL,
+  salarioNivel3               DECIMAL(17,2) NOT NULL,
+  percentualSalarioBonus      DECIMAL(17,2) NOT NULL,
+  bonificacaoPorDepartamento  DECIMAL(17,2)     NULL,
+  bonificacaoPorPessoa        DECIMAL(17,2)     NULL,
+  acessaSistema               BIT               NULL
 );
 
 CREATE TABLE IF NOT EXISTS Departamento (

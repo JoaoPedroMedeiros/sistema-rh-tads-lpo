@@ -1,8 +1,13 @@
 package tads.lpo.rh.bean;
 
+/**
+ * ESta classe cria um id para cada sistema
+ */
 public class SistemaBean extends BaseBean {
 
     private String nome;
+
+    public SistemaBean() {}
 
     public SistemaBean(Integer id, String nome) {
         super(id);

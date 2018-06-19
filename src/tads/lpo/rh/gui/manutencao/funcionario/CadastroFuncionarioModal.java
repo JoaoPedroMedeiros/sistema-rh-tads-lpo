@@ -3,6 +3,7 @@ package tads.lpo.rh.gui.manutencao.funcionario;
 import tads.lpo.rh.bean.*;
 import tads.lpo.rh.dao.CargoDAO;
 import tads.lpo.rh.dao.DepartamentoDAO;
+import tads.lpo.rh.dao.FuncionarioDAO;
 import tads.lpo.rh.gui._common.CadastroGenericoModal;
 import tads.lpo.rh.gui._common.ErroFrame;
 
@@ -261,7 +262,7 @@ public class CadastroFuncionarioModal extends CadastroGenericoModal<FuncionarioB
         funcionario.setSenha(senhaText.getText());
         funcionario.setTelefone(telefoneText.getText());
         funcionario.setNivel((Integer) nivelCombobox.getSelectedItem());
-        funcionario.setCpf(cpfText.getText());
+        funcionario.setCpf(cpfText.getText().replace("-", "").replace(".", ""));
         funcionario.setRg(rgText.getText());
         funcionario.setSobrenome(sobrenomeText.getText());
         funcionario.setNome(nameText.getText());
@@ -274,7 +275,7 @@ public class CadastroFuncionarioModal extends CadastroGenericoModal<FuncionarioB
         this.nameText.setText(funcionario.getNome());
         this.sobrenomeText.setText(funcionario.getSobrenome());
         this.rgText.setText(funcionario.getRg());
-        this.cpfText.setText(funcionario.getCpf());
+        this.cpfText.setText(funcionario.getCpf().replace("-", "").replace(".", ""));
         this.telefoneText.setText(funcionario.getTelefone());
         this.cargoCombobox.setSelectedItem(funcionario.getCargo());
         this.nivelCombobox.setSelectedItem(funcionario.getNivel());

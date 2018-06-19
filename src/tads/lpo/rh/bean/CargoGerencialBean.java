@@ -6,8 +6,8 @@ public class CargoGerencialBean extends CargoBean {
 
     private BigDecimal bonificacaoPorPessoa;
 
-    public CargoGerencialBean(BigDecimal bonificacaoPorPessoa) {
-        this.bonificacaoPorPessoa = bonificacaoPorPessoa;
+    public CargoGerencialBean() {
+
     }
 
     public CargoGerencialBean(String nome, BigDecimal salarioNivel1, BigDecimal salarioNivel2, BigDecimal salarioNivel3, BigDecimal percentualSalarioBonus) {

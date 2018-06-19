@@ -6,13 +6,7 @@ public interface ConnectionFactory {
 
     Connection getConnection();
 
-    static ConnectionFactory connectionFactory = null;
-
     public static ConnectionFactory getInstance() {
-        return connectionFactory;
-    }
-
-    static void setInstance(ConnectionFactory connectionFactory) {
-        connectionFactory = connectionFactory;
+        return ConnectionFactorySingleton.getInstance();
     }
 }

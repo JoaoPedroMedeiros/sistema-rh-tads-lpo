@@ -1,7 +1,11 @@
 package tads.lpo.rh.dao;
 
+import tads.lpo.rh.ConnectionFactory;
 import tads.lpo.rh.bean.DepartamentoBean;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,33 +22,91 @@ public class DepartamentoDAO extends BaseDAO<DepartamentoBean> {
 
     private static int i = 2;
 
-    public void cadastrar(DepartamentoBean funcionario) throws SQLException {
-        funcionario.setId(++this.i);
-        departamentos.add(funcionario);
+    public void cadastrar(DepartamentoBean departamento) throws SQLException {
+        Connection connection = ConnectionFactory.getInstance().getConnection();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO Departamento (nome) VALUES (?)"
+            );
+            statement.setString(1, departamento.getNome());
+            statement.executeUpdate();
+
+        }
+        finally {
+            if (connection != null)
+                connection.close();
+        }
     }
 
-    public void alterar(DepartamentoBean funcionarioBean) throws SQLException {
-        int i = -1;
-        for (DepartamentoBean f: departamentos) {
-            if (f.getId().equals(funcionarioBean.getId()))
-                i = departamentos.indexOf(f);
+    public void alterar(DepartamentoBean departamento) throws SQLException {
+        Connection connection = ConnectionFactory.getInstance().getConnection();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+            "UPDATE Departamento set nome = ? WHERE id = ?"
+            );
+
+            statement.setString(1, departamento.getNome());
+            statement.setInt(2, departamento.getId());
+
+            statement.executeUpdate();
         }
-        departamentos.remove(i);
-        departamentos.add(i, funcionarioBean);
+        finally {
+            if (connection != null)
+                connection.close();
+        }
     }
 
-    public void excluir(DepartamentoBean funcionarioBean) throws SQLException {
-        int i = -1;
-        for (DepartamentoBean f: departamentos) {
-            if (f.getId().equals(funcionarioBean.getId()))
-                i = departamentos.indexOf(f);
+    public void excluir(DepartamentoBean departamento) throws SQLException {
+        Connection connection = ConnectionFactory.getInstance().getConnection();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "DELETE FROM Departamento WHERE id = ?"
+            );
+
+            statement.setInt(1, departamento.getId());
+
+            statement.executeUpdate();
         }
-        if (i > -1)
-            departamentos.remove(i);
+        finally {
+            if (connection != null)
+                connection.close();
+        }
     }
 
     public List<DepartamentoBean> listarTodos(String filtro) throws SQLException {
-        List<DepartamentoBean> departamentoBeans = filtro != null && !filtro.isEmpty() ? departamentos.stream().filter(f -> f.getNome().contains(filtro)).collect(Collectors.toList()) : departamentos;
-        return departamentoBeans;
+        Connection connection = ConnectionFactory.getInstance().getConnection();
+
+        try {
+            String sql = "SELECT * FROM Departamento";
+            sql = sql + (filtro == null || filtro.isEmpty() ? "" : " WHERE nome like ?");
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            if (filtro != null && !filtro.isEmpty()) {
+                statement.setString(1, "%" + filtro + "%");
+            }
+
+            ResultSet rs = statement.executeQuery();
+
+            List<DepartamentoBean> departamentos = new ArrayList<>();
+
+            while (rs.next()) {
+                DepartamentoBean departamento = new DepartamentoBean(
+                        rs.getInt("id"),
+                        rs.getString("nome")
+
+                );
+                departamentos.add(departamento);
+
+            }
+            return departamentos;
+        }
+        finally {
+            if (connection != null)
+                connection.close();
+        }
     }
 }

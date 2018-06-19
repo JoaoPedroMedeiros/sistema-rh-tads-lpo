@@ -2,7 +2,11 @@ package tads.lpo.rh.bean;
 
 import java.util.Objects;
 
-public class BaseBean {
+/**
+ * Esta classe serve para sobreescrever o equals de todas as outras
+ * É a classe base para as outras beans
+ */
+public abstract class BaseBean {
 
     private Integer id;
 

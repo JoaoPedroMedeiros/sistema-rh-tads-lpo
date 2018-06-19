@@ -1,5 +1,8 @@
 package tads.lpo.rh.bean;
 
+/**
+ * Classe do chão de fábrica
+ */
 public class FuncionarioOperacionalBean extends FuncionarioBean<CargoOperacionalBean> {
 
     private DepartamentoBean departamentoAtuacao;
@@ -24,6 +27,8 @@ public class FuncionarioOperacionalBean extends FuncionarioBean<CargoOperacional
     }
 
     @Override
+
+    // Aqui que verifica se o auxiliar de limpeza pode acessar algum sistema
     public boolean autenticar(SistemaBean sistema, String cpf, String senha) {
         if (getCargo() != null && getCargo().getAcessaSistema() != null && !getCargo().getAcessaSistema())
             return false;

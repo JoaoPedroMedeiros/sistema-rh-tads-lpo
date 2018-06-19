@@ -2,6 +2,10 @@ package tads.lpo.rh.bean;
 
 import java.math.BigDecimal;
 
+/**
+ * Classe do Gerente
+ */
+
 public class FuncionarioGerencialBean extends FuncionarioBean<CargoGerencialBean> {
 
     private DepartamentoBean departamentoGerenciado;

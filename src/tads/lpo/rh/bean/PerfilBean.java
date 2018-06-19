@@ -2,11 +2,16 @@ package tads.lpo.rh.bean;
 
 import java.util.List;
 
+/**
+ * Esta classe cria um perfil para cada funcionario ao acessar ums sitema
+ */
 public class PerfilBean extends BaseBean {
 
     private FuncionarioBean funcionario;
 
     private List<SistemaBean> sistemas;
+
+    public PerfilBean() {}
 
     public PerfilBean(FuncionarioBean funcionario, List<SistemaBean> sistemas) {
         this.funcionario = funcionario;

@@ -46,10 +46,12 @@ public class CadastroCargoModal extends CadastroGenericoModal<CargoBean> {
         String tipo = (String) tipoCombobox.getSelectedItem();
 
         if (tipo.equals("Executivo")) {
-            cargo = new CargoExecutivoBean(new BigDecimal(((Number) bonificacaoDepartamentoText.getValue()).doubleValue()));
+            cargo = new CargoExecutivoBean();
+            ((CargoExecutivoBean) cargo).setBonificacaoPorDepartamento(new BigDecimal(((Number) bonificacaoDepartamentoText.getValue()).doubleValue()));
         }
         else if (tipo.equals("Gerencial")) {
-            cargo = new CargoGerencialBean(new BigDecimal(((Number) bonificacaoPessoaText.getValue()).doubleValue()));
+            cargo = new CargoGerencialBean();
+            ((CargoGerencialBean) cargo).setBonificacaoPorPessoa(new BigDecimal(((Number) bonificacaoPessoaText.getValue()).doubleValue()));
         }
         else if (tipo.equals("Operacional")) {
             cargo = new CargoOperacionalBean();

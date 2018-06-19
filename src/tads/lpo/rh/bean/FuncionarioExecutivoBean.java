@@ -3,6 +3,9 @@ package tads.lpo.rh.bean;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Classe do Diretor
+ */
 public class FuncionarioExecutivoBean extends FuncionarioBean<CargoExecutivoBean> {
 
     private List<DepartamentoBean> departamentos;

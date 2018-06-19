@@ -1,6 +1,7 @@
 package tads.lpo.rh;
 
 import tads.lpo.rh.bd.HSQLConnectionFactory;
+import tads.lpo.rh.bd.MySQLConnectionFactory;
 import tads.lpo.rh.gui.MDIFrame;
 import tads.lpo.rh.gui.login.LoginFrame;
 
@@ -56,7 +57,17 @@ public class Application {
                 if (dbUser == null || dbPwd == null || dbFile == null)
                     throw new IOException("As propriedades db.hsql.user, db.hsql.pwd, db.hsql.file precisam ser preenchidas");
 
-                ConnectionFactory.setInstance(new HSQLConnectionFactory(dbUser, dbPwd, new File(dbFile)));
+                ConnectionFactorySingleton.setInstance(new HSQLConnectionFactory(dbUser, dbPwd, new File(dbFile)));
+            }
+            else if ("MySQL".equals(dbType)) {
+                String dbUser = properties.getProperty("db.mysql.user");
+                String dbPwd  = properties.getProperty("db.mysql.pwd");
+                String dbSchema = properties.getProperty("db.mysql.schema");
+
+                if (dbUser == null || dbPwd == null || dbSchema == null)
+                    throw new IOException("As propriedades db.mysql.user, db.mysql.pwd, db.mysql.schema precisam ser preenchidas");
+
+                ConnectionFactorySingleton.setInstance(new MySQLConnectionFactory(dbUser, dbPwd, dbSchema));
             }
             else {
                 throw new IOException("A propriedade db.type não está configurada corretamente");
