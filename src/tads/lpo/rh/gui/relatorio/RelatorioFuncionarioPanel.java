@@ -27,7 +27,7 @@ public class RelatorioFuncionarioPanel extends JPanel {
             add(scrollPanel);
 
             FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-            List<FuncionarioBean<?>> funcionarios = funcionarioDAO.consultarFuncionariosRelatorio();
+            List<FuncionarioBean> funcionarios = funcionarioDAO.consultarFuncionariosRelatorio();
 
             tableModel.setItems(funcionarios);
             tableModel.fireTableDataChanged();

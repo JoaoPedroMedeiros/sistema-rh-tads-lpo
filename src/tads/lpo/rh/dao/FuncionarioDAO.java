@@ -445,7 +445,21 @@ public class FuncionarioDAO extends BaseDAO<FuncionarioBean> {
         return funcionario;
     }
 
-    public List<FuncionarioBean<?>> consultarFuncionariosRelatorio() throws SQLException {
-        return null;
+    public List<FuncionarioBean> consultarFuncionariosRelatorio() throws SQLException {
+        List<FuncionarioBean> funcionarios = listarTodos(null);
+
+        if (funcionarios != null) {
+            for (FuncionarioBean funcionario : funcionarios) {
+                if (funcionario instanceof FuncionarioExecutivoBean) {
+                    ((FuncionarioExecutivoBean) funcionario).setDepartamentos(new ArrayList<>());
+                    ((FuncionarioExecutivoBean) funcionario).getDepartamentos().addAll(buscarDepartamentosGerenciados(funcionario));
+                }
+                if (funcionario instanceof FuncionarioGerencialBean) {
+                    DepartamentoBean departamentoGerenciado = ((FuncionarioGerencialBean) funcionario).getDepartamentoGerenciado();
+                    departamentoGerenciado.setContagemPessoas(new DepartamentoDAO().contarPessoasDepartamento(departamentoGerenciado));
+                }
+            }
+        }
+        return funcionarios;
     }
 }

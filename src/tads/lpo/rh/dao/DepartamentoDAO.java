@@ -14,13 +14,28 @@ import java.util.stream.Collectors;
 
 public class DepartamentoDAO extends BaseDAO<DepartamentoBean> {
 
-    public static final DepartamentoBean DEPARTAMENTO1 = new DepartamentoBean(1, "Departamento 1");
-    public static final DepartamentoBean DEPARTAMENTO2 = new DepartamentoBean(2, "Departamento 2");
+    public int contarPessoasDepartamento(DepartamentoBean departamento) throws SQLException {
+        Connection connection = ConnectionFactory.getInstance().getConnection();
 
-    private final static List<DepartamentoBean> departamentos =
-            new ArrayList<DepartamentoBean>(Arrays.asList(DEPARTAMENTO1, DEPARTAMENTO2));
+        try {
+            int contagem = 0;
 
-    private static int i = 2;
+            PreparedStatement statement = connection.prepareStatement(
+            "SELECT COUNT(Funcionario.idDepartamentoAtuacao) c FROM Funcionario " +
+                    "WHERE Funcionario.idDepartamentoAtuacao = ?"
+            );
+            statement.setInt(1, departamento.getId());
+            ResultSet rs = statement.executeQuery();
+            if (rs.first()) {
+                contagem = rs.getInt("c");
+            }
+            return contagem;
+        }
+        finally {
+            if (connection != null)
+                connection.close();
+        }
+    }
 
     public void cadastrar(DepartamentoBean departamento) throws SQLException {
         Connection connection = ConnectionFactory.getInstance().getConnection();

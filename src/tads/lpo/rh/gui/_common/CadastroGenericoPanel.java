@@ -202,7 +202,7 @@ public abstract class CadastroGenericoPanel<T extends BaseBean> extends JPanel {
     }
 
     private void openModal(JPanel panel) {
-        dialog = new JDialog(this.parentFrame, "Novo cargo", true);
+        dialog = new JDialog(this.parentFrame, "Informações", true);
         dialog.getContentPane().add(panel);
 
         dialog.setSize(modalDimensions());
